@@ -25,7 +25,8 @@
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "test:setup": "tsx ./scripts/test-setup.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
