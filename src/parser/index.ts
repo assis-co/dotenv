@@ -25,7 +25,6 @@ export class Parser {
         );
       })
       .forEach((m) => {
-        console.log(m[1]);
         const k = this.key(m[1]);
         const val = this.value(m[2] || '');
 
