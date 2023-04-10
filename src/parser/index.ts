@@ -16,7 +16,7 @@ export class Parser {
 
   parse(src: string) {
     const content = src.toString().replace(/\r\n?/gm, '\n');
-
+    console.log('src', src);
     [...content.matchAll(expr)]
       .filter((m) => {
         return (
@@ -25,8 +25,9 @@ export class Parser {
         );
       })
       .forEach((m) => {
+        console.log(m[1]);
         const k = this.key(m[1]);
-        const val = this.value(m[2].toString());
+        const val = this.value(m[2] || '');
 
         if (!this.options.group) {
           this.obj[k] = val;
