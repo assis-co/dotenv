@@ -1,6 +1,8 @@
 name: Nodejs CI
 on:
-  push: ['main']
+  push:
+    branches:
+      - main
 
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
