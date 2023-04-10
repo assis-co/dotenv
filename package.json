@@ -1,0 +1,98 @@
+{
+  "name": "@assis-co/dotenv",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/main/index.js",
+  "typings": "lib/main/index.d.ts",
+  "module": "lib/module/index.js",
+  "repository": "https://github.com/assis-co/dotenv.git",
+  "author": "Adão Santos",
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "dotenv"
+  ],
+  "scripts": {
+    "build": "npm run clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "clean": "rimraf build coverage nyc_output",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:setup": "tsx ./scripts/test-setup.ts",
+    "doc": "run-s doc:html && open-cli lib/docs/index.html",
+    "doc:html": "typedoc src/ --exclude **/*.spec.ts --out lib/docs",
+    "doc:json": "typedoc src/ --exclude **/*.spec.ts --json lib/docs/typedoc.json",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "ava": "^5.2.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "npm-run-all": "^4.1.5",
+    "open-cli": "^7.0.1",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.10",
+    "@vitest/coverage-c8": "^0.29.8",
+    "c8": "^7.13.0",
+    "cspell": "^6.31.1",
+    "nyc": "^15.1.0",
+    "prettier": "^2.8.7",
+    "prompts": "^2.4.2",
+    "rimraf": "^4.4.1",
+    "semantic-release": "^21.0.1",
+    "slugify": "^1.6.6",
+    "source-map-support": "^0.5.21",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.3",
+    "vitest": "^0.29.8"
+  },
+  "files": [
+    "lib/main",
+    "lib/module",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "ava": {
+    "failFast": true,
+    "timeout": "60s",
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/main/"
+      },
+      "compile": false
+    },
+    "files": [
+      "!lib/module/**"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "exclude": [
+      "**/*.spec.js"
+    ]
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.192",
+    "lodash": "^4.17.21"
+  }
+}
