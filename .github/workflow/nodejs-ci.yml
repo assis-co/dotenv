@@ -1,0 +1,59 @@
+name: Nodejs CI
+on:
+  push: ['main']
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v3
+      - run: npm ci
+
+      - name: Dependencies audit
+        run: npm audit --audit-level=moderate
+
+      - name: Build
+        run: npm run build
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Lint check
+        run: npm run lint:check
+
+      - name: Spell check
+        run: npm run spell:check
+
+      - name: Test
+        run: npm run test
+
+      - name: Setup test
+        run: npm run test:setup
+
+      - name: Release public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run semantic-release
+
+      - name: Release internal
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@assis-co'
+
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
