@@ -16,7 +16,7 @@ export class Parser {
 
   parse(src: string) {
     const content = src.toString().replace(/\r\n?/gm, '\n');
-    console.log('src', src);
+
     [...content.matchAll(expr)]
       .filter((m) => {
         return (
